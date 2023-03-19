@@ -1,4 +1,4 @@
-package com.personal.budget.controller;
+package com.personal.expenses.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.hasSize;

@@ -1,3 +1,4 @@
 rootProject.name = 'expenses'
 include 'expenses-service'
 include 'expenses-rest'
+include 'expenses-auth'
