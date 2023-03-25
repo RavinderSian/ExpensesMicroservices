@@ -99,8 +99,27 @@ public class ExpenseJsonController {
 		
 		List<Expense> expenses = service.findByUserId(userOptional.get().getId());
 		
-		if (expenses.size() == 0) 
+		if (expenses.isEmpty()) 
 				log.info(String.format("No expenses for user: %s", username));
+		
+		return new ResponseEntity<>(expenses, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{username}/{year}")
+	public ResponseEntity<?> getExpensesForUser(@PathVariable String username, @PathVariable String year, HttpServletRequest request,
+			 RedirectAttributes redirectAttributes) {
+		
+		Optional<User> userOptional = userService.findByUsername(username);
+		
+		if (userOptional.isEmpty()) {
+			log.error(String.format("User %s not found", username));
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<Expense> expenses = service.findExpensesByYearForUser(Integer.valueOf(year) ,userOptional.get().getId());
+		
+		if (expenses.isEmpty()) 
+				log.info(String.format("No expenses for user: %s year: %s", username, year));
 		
 		return new ResponseEntity<>(expenses, HttpStatus.OK);
 	}
