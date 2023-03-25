@@ -1,13 +1,13 @@
-package com.personal.expenses;
+package com.personal.expenses.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ExpensesAuthApplication {
+public class ExpensesRestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExpensesAuthApplication.class, args);
+		SpringApplication.run(ExpensesRestApplication.class, args);
 	}
 
 }

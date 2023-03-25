@@ -1,4 +1,4 @@
-package com.personal.expenses.controller;
+package com.personal.expenses.rest.controller;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -26,13 +26,13 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.personal.expenses.config.SecurityConfig;
-import com.personal.expenses.controller.ExpenseController;
+import com.personal.expenses.auth.config.SecurityConfig;
 import com.personal.expenses.model.Expense;
 import com.personal.expenses.model.ExpenseDTO;
 import com.personal.expenses.model.User;
 import com.personal.expenses.repository.ExpenseRepository;
 import com.personal.expenses.repository.UserRepository;
+import com.personal.expenses.rest.controller.ExpenseController;
 import com.personal.expenses.service.ExpenseService;
 import com.personal.expenses.service.ExpenseServiceImpl;
 import com.personal.expenses.service.UserService;

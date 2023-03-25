@@ -1,4 +1,4 @@
-package com.personal.expenses.controller;
+package com.personal.expenses.rest.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
@@ -23,12 +23,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.personal.expenses.auth.config.SecurityConfig;
 import com.personal.expenses.model.Expense;
 import com.personal.expenses.model.User;
 import com.personal.expenses.repository.ExpenseRepository;
@@ -68,7 +68,7 @@ class ExpenseJsonControllerTest {
 	@WithMockUser(username = "test", password = "testing", authorities = "USER")
 	void test_DeleteRequest_DeletesEntity_WhenGivenValidEntity() throws Exception {
 		
-		mockMvc.perform(get("/delete/1"))
+		mockMvc.perform(get("/expenses/delete/1"))
 		.andExpect(status().isOk());
 	}
 	
@@ -273,7 +273,6 @@ class ExpenseJsonControllerTest {
 		expense2.setDescription("cars");
 		expense2.setPurchaseDate(LocalDate.now());
 
-		when(userService.findByUsername("rsian")).thenReturn(Optional.of(user));
 		when(service.findByUserId(1L)).thenReturn(Arrays.asList(expense, expense2));
 		
 		mockMvc.perform(get("/expenses/rsian"))

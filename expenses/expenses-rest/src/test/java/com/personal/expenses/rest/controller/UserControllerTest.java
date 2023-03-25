@@ -1,4 +1,4 @@
-package com.personal.expenses.controller;
+package com.personal.expenses.rest.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.personal.expenses.model.User;
 import com.personal.expenses.repository.UserRepository;
+import com.personal.expenses.rest.controller.UserController;
 import com.personal.expenses.service.UserService;
 import com.personal.expenses.service.UserServiceImpl;
 
