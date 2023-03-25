@@ -23,8 +23,11 @@ import com.personal.expenses.model.Expense;
 import com.personal.expenses.service.ExpenseService;
 import com.personal.expenses.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @PreAuthorize("hasAuthority('USER')")
-@RestController
+@RestController("/expenses")
 public class ExpenseJsonController {
 	
 	private final ExpenseService service;
@@ -74,6 +77,18 @@ public class ExpenseJsonController {
 		}
 		catch(DataAccessException exception) {
 			return new ResponseEntity<>("Currently down due to maintenance", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping("/{username}")
+	public ResponseEntity<?> getExpensesForUser(@PathVariable String username, HttpServletRequest request,
+			 RedirectAttributes redirectAttributes) {
+		
+		if (userService.findByUsername(username).isEmpty()) {
+			log.error(String.format("User %s not found", username));
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);
