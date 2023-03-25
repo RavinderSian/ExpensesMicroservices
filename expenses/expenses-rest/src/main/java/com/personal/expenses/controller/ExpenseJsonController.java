@@ -3,6 +3,7 @@ package com.personal.expenses.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.personal.expenses.model.Expense;
+import com.personal.expenses.model.User;
 import com.personal.expenses.service.ExpenseService;
 import com.personal.expenses.service.UserService;
 
@@ -86,12 +88,19 @@ public class ExpenseJsonController {
 	public ResponseEntity<?> getExpensesForUser(@PathVariable String username, HttpServletRequest request,
 			 RedirectAttributes redirectAttributes) {
 		
-		if (userService.findByUsername(username).isEmpty()) {
+		Optional<User> userOptional = userService.findByUsername(username);
+		
+		if (userOptional.isEmpty()) {
 			log.error(String.format("User %s not found", username));
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		List<Expense> expenses = service.findByUserId(userOptional.get().getId());
+		
+		if (expenses.size() == 0) 
+				log.info(String.format("No expenses for user: %s", username));
+		
+		return new ResponseEntity<>(expenses, HttpStatus.OK);
 	}
 
 }
