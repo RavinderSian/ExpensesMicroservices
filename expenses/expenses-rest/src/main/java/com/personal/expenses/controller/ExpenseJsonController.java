@@ -53,7 +53,6 @@ public class ExpenseJsonController {
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAuthority('USER')")
 	@PostMapping("/addexpensejson")
 	public ResponseEntity<?> addExpenseJSON(@RequestBody @Valid Expense newExpense, BindingResult bindingResult,
 			HttpServletRequest request) {
