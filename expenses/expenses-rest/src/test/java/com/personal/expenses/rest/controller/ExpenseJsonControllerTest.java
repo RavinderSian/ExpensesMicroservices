@@ -311,4 +311,89 @@ class ExpenseJsonControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$", hasSize(0)));
 	}
+
+	@Test
+	@WithMockUser(username = "rsian", password = "pw", authorities = "USER")
+	void test_GetExpensesForUserAndYear_ReturnsExpensesForUserAndYear_WhenGivenExistingUsernameWithExpenses() throws Exception {
+		
+		User user = new User();
+		user.setId(1L);
+		user.setAuthority("USER");
+		user.setEmail("rsian@gmail.com");
+		user.setPassword("test");
+		user.setUsername("rsian");
+		
+		Expense expense = new Expense();
+		expense.setUserId(1L);
+		expense.setAmount(BigDecimal.valueOf(10));
+		expense.setCategory("Dates");
+		expense.setDescription("car");
+		expense.setPurchaseDate(LocalDate.now());
+		
+		Expense expense2 = new Expense();
+		expense2.setUserId(1L);
+		expense2.setAmount(BigDecimal.valueOf(10));
+		expense2.setCategory("Dates");
+		expense2.setDescription("cars");
+		expense2.setPurchaseDate(LocalDate.now());
+
+		when(userService.findByUsername("rsian")).thenReturn(Optional.of(user));
+		when(service.findExpensesByYearForUser(LocalDate.now().getYear(),(1L)))
+			.thenReturn(Arrays.asList(expense, expense2));
+		
+		mockMvc.perform(get("/expenses/rsian/" + LocalDate.now().getYear()))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$", hasSize(2)))
+		.andExpect(jsonPath("$[0]['description']", containsString("car")))
+		.andExpect(jsonPath("$[1]['description']", containsString("cars")));
+	}
+	
+	@Test
+	@WithMockUser(username = "rsian", password = "pw", authorities = "USER")
+	void test_GetExpensesForUserAndYear_ReturnsNotFound_WhenGivenUsernameThatDoesNotExist() throws Exception {
+		
+		User user = new User();
+		user.setId(1L);
+		user.setAuthority("USER");
+		user.setEmail("rsian@gmail.com");
+		user.setPassword("test");
+		user.setUsername("rsian");
+		
+		Expense expense = new Expense();
+		expense.setUserId(1L);
+		expense.setAmount(BigDecimal.valueOf(10));
+		expense.setCategory("Dates");
+		expense.setDescription("car");
+		expense.setPurchaseDate(LocalDate.now());
+		
+		Expense expense2 = new Expense();
+		expense2.setUserId(1L);
+		expense2.setAmount(BigDecimal.valueOf(10));
+		expense2.setCategory("Dates");
+		expense2.setDescription("cars");
+		expense2.setPurchaseDate(LocalDate.now());
+
+		mockMvc.perform(get("/expenses/rsian/" + LocalDate.now().getYear()))
+		.andExpect(status().isNotFound());
+	}
+	
+	@Test
+	@WithMockUser(username = "rsian", password = "pw", authorities = "USER")
+	void test_GetExpensesForUserAndYear_ReturnsEmptyArray_WhenGivenExistingUsernameWithNoExpenses() throws Exception {
+		
+		User user = new User();
+		user.setId(1L);
+		user.setAuthority("USER");
+		user.setEmail("rsian@gmail.com");
+		user.setPassword("test");
+		user.setUsername("rsian");
+		
+		when(userService.findByUsername("rsian")).thenReturn(Optional.of(user));
+		when(service.findExpensesByYearForUser(LocalDate.now().getYear(),(1L)))
+			.thenReturn(Arrays.asList());
+		
+		mockMvc.perform(get("/expenses/rsian/" + LocalDate.now().getYear()))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$", hasSize(0)));
+	}
 }

@@ -106,7 +106,7 @@ public class ExpenseJsonController {
 	}
 	
 	@GetMapping("/{username}/{year}")
-	public ResponseEntity<?> getExpensesForUser(@PathVariable String username, @PathVariable String year, HttpServletRequest request,
+	public ResponseEntity<?> getExpensesForUserAndYear(@PathVariable String username, @PathVariable String year, HttpServletRequest request,
 			 RedirectAttributes redirectAttributes) {
 		
 		Optional<User> userOptional = userService.findByUsername(username);
