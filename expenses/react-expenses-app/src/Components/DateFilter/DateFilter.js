@@ -3,8 +3,6 @@ import classes from "./DateFilter.module.css";
 import backArrow from "../../icons/backArrow.svg";
 import nextArrow from "../../icons/nextArrow.svg";
 
-const 
-
 const DateFilter = () => {
   return (
     <div className={`${classes["budget-date-filter"]}`}>
