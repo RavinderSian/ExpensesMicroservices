@@ -15,10 +15,10 @@ repositories {
 dependencies {
     implementation project(':expenses-service')
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation project(':expenses-service')
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 }
 
 tasks.named('test') {
