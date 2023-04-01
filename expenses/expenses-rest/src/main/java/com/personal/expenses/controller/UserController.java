@@ -1,4 +1,4 @@
-package com.personal.expenses.rest.controller;
+package com.personal.expenses.controller;
 
 import java.util.HashMap;
 import java.util.Map;

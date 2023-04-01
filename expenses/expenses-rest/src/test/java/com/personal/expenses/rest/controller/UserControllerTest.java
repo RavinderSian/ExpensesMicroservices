@@ -16,10 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.personal.expenses.auth.config.SecurityConfig;
+import com.personal.expenses.config.SecurityConfig;
+import com.personal.expenses.controller.UserController;
 import com.personal.expenses.model.User;
 import com.personal.expenses.repository.UserRepository;
-import com.personal.expenses.rest.controller.UserController;
 import com.personal.expenses.service.UserService;
 import com.personal.expenses.service.UserServiceImpl;
 

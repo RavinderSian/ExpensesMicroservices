@@ -10,7 +10,7 @@ import com.personal.expenses.service.ExpenseService;
 import com.personal.expenses.service.UserService;
 
 @SpringBootTest
-class ExpensesRestApplicationTests {
+class ExpensesApplicationTests {
 	
 	
 	@MockBean

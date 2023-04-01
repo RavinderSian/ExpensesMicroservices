@@ -1,4 +1,4 @@
-package com.personal.expenses.auth.config;
+package com.personal.expenses.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

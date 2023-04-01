@@ -28,7 +28,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.personal.expenses.auth.config.SecurityConfig;
+import com.personal.expenses.config.SecurityConfig;
+import com.personal.expenses.controller.ExpenseJsonController;
 import com.personal.expenses.model.Expense;
 import com.personal.expenses.model.User;
 import com.personal.expenses.repository.ExpenseRepository;
