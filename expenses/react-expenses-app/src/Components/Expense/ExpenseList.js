@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Expense from "./Expense";
 import ExpenseTotal from "./ExpenseTotal";
 import classes from "./ExpenseList.module.css";
@@ -21,11 +21,37 @@ const DUMMY_EXPENSE = [
 ];
 
 const ExpenseList = () => {
+  const fetchExpenses = async function () {
+    const response = await fetch("http://localhost:8080/expenses/rsian", {
+      mode: "cors",
+    });
+    const data = await response.json();
+
+    const transformedExpenses = data.map((expenseData) => {
+      return {
+        id: expenseData.id,
+        userId: expenseData.userId,
+        category: expenseData.category,
+        amount: expenseData.amount,
+        description: expenseData.description,
+        purchaseDate: expenseData.purchaseDate,
+      };
+    });
+    setExpensesListFromDB(transformedExpenses);
+    console.log(transformedExpenses);
+  };
+
+  const [expensesListFromDB, setExpensesListFromDB] = useState([]);
+
   const totalOfExpenses = DUMMY_EXPENSE.reduce((a, b) => {
     return a + b.amount;
   }, 0);
 
-  const expensesList = DUMMY_EXPENSE.map((expense) => (
+  useEffect(() => {
+    fetchExpenses();
+  }, [fetchExpenses]);
+
+  const expensesList = expensesListFromDB.map((expense) => (
     <Expense key={expense.id} {...expense}></Expense>
   ));
   return (
