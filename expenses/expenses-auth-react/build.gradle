@@ -1,0 +1,55 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.9'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "com.github.node-gradle.node" version "3.1.1"
+}
+
+repositories {
+	mavenCentral()
+}
+
+node {
+	
+	//Node version
+	version = '19.8.1'
+	
+	
+	//Version of npm
+	npmVersion = '9.6.1'
+	
+	//If true will download node with the above parameters
+	//If false, it will try to use globally installed node.
+	download = true
+
+	//Directory where node_modules should be
+	nodeModulesDir = file("${project.buildDir}/src/main/webapp")
+	
+}
+
+task buildReactApp(type: NodeTask, dependsOn: 'npmInstall') {
+    script = project.file('./src/main/webapp/node_modules/bin/webpack.js')
+    args = [
+            '--mode', 'development',
+            '--entry', './src/main/webapp/src/Main.jsx',
+            '-o', './src/main/resources/static/dist'
+    ]
+}
+
+springBoot {
+	mainClass = "com.personal.expenses.ExpensesApplication"
+}
+
+dependencies {
+	implementation project(':expenses-rest')
+}
+
+task buildClient(type:NpmTask, dependsOn: 'npmInstall') {
+	group = 'build'
+	description =  'Compile react code'
+	args = ['npm', 'install']
+}
+
+processResources.dependsOn 'buildReactApp'
+clean.delete << file('node_modules')
+clean.delete << file('src/main/resources/static/dist')
