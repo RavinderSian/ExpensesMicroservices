@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Expense from "./Expense";
 import ExpenseTotal from "./ExpenseTotal";
 import classes from "./ExpenseList.module.css";
 
-const DUMMY_EXPENSE = [
-  {
-    id: 1,
-    category: "TEST",
-    description: "test",
-    amount: 50.0,
-    purchaseDate: "2023-01-02",
-  },
-  {
-    id: 2,
-    category: "TEST",
-    description: "test",
-    amount: 60.0,
-    purchaseDate: "2023-01-02",
-  },
-];
+// const DUMMY_EXPENSE = [
+//   {
+//     id: 1,
+//     category: "TEST",
+//     description: "test",
+//     amount: 50.0,
+//     purchaseDate: "2023-01-02",
+//   },
+//   {
+//     id: 2,
+//     category: "TEST",
+//     description: "test",
+//     amount: 60.0,
+//     purchaseDate: "2023-01-02",
+//   },
+// ];
 
 const ExpenseList = () => {
-  const fetchExpenses = async function () {
+  const fetchExpenses = useCallback(async function () {
     const response = await fetch("http://localhost:8080/expenses/rsian", {
       mode: "cors",
     });
@@ -39,11 +39,11 @@ const ExpenseList = () => {
     });
     setExpensesListFromDB(transformedExpenses);
     console.log(transformedExpenses);
-  };
+  }, []);
 
   const [expensesListFromDB, setExpensesListFromDB] = useState([]);
 
-  const totalOfExpenses = DUMMY_EXPENSE.reduce((a, b) => {
+  const totalOfExpenses = expensesListFromDB.reduce((a, b) => {
     return a + b.amount;
   }, 0);
 
