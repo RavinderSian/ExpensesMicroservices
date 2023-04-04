@@ -1,9 +1,11 @@
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.9'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id "com.github.node-gradle.node" version "3.1.1"
 }
+
+apply plugin: 'io.spring.dependency-management'
+
 
 repositories {
 	mavenCentral()
@@ -22,13 +24,12 @@ node {
 	//If false, it will try to use globally installed node.
 	download = true
 
-	//Directory where node_modules should be
-	nodeModulesDir = file("${project.buildDir}/src/main/webapp")
-	
 }
 
+
 task buildReactApp(type: NodeTask, dependsOn: 'npmInstall') {
-    script = project.file('./src/main/webapp/node_modules/bin/webpack.js')
+    script = project.file('.node_modules/webpack/bin/webpack.js')
+    //packageJsonFile = file("${project.buildDir}/src/main/webapp")
     args = [
             '--mode', 'development',
             '--entry', './src/main/webapp/src/Main.jsx',
@@ -42,12 +43,7 @@ springBoot {
 
 dependencies {
 	implementation project(':expenses-rest')
-}
-
-task buildClient(type:NpmTask, dependsOn: 'npmInstall') {
-	group = 'build'
-	description =  'Compile react code'
-	args = ['npm', 'install']
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
 processResources.dependsOn 'buildReactApp'
