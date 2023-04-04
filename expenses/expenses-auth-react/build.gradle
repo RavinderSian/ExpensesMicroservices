@@ -28,11 +28,11 @@ node {
 
 
 task buildReactApp(type: NodeTask, dependsOn: 'npmInstall') {
-    script = project.file('.node_modules/webpack/bin/webpack.js')
+    script = project.file('node_modules/webpack/bin/webpack.js')
     //packageJsonFile = file("${project.buildDir}/src/main/webapp")
     args = [
             '--mode', 'development',
-            '--entry', './src/main/webapp/src/Main.jsx',
+            '--entry', './src/main/webapp/src/App.js',
             '-o', './src/main/resources/static/dist'
     ]
 }
